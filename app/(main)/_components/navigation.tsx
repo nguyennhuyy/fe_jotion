@@ -10,19 +10,16 @@ import {
 import { usePathname } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useMutation, useQuery } from "convex/react";
-import { toast } from "sonner";
 
-import { api } from "@/convex/_generated/api";
-import { Item, UserItem } from ".";
+import { DocumentList, Item, UserItem } from ".";
+import { socket } from "@/lib";
+import { EventName } from "./enum";
+import { useUser } from "@clerk/clerk-react";
 
 const Navigation = () => {
 	const pathname = usePathname();
 	const isMoble = useMediaQuery("(max-width: 768px)");
-
-	const documents = useQuery(api.documents.get);
-	const create = useMutation(api.documents.create);
-
+	const user = useUser();
 	const isResizingRef = useRef(false);
 	const sidebarRef = useRef<ElementRef<"aside">>(null);
 	const navbarRef = useRef<ElementRef<"div">>(null);
@@ -93,12 +90,10 @@ const Navigation = () => {
 		}
 	};
 
-	const handleCreate = () => {
-		const promise = create({ title: "Untitled" });
-		toast.promise(promise, {
-			loading: "Creating an new note...",
-			success: "New note created!",
-			error: "Failed to create a new note"
+	const createNewPage = () => {
+		socket.emit(EventName.CreateDocument, {
+			userId: "65d6a2aac456a359c9c7b4d2",
+			parentDocument: null
 		});
 	};
 	useEffect(() => {
@@ -129,13 +124,11 @@ const Navigation = () => {
 				<div>
 					<UserItem />
 					<Item label='Search' icon={Search} onClick={() => {}} isSearch />
-					<Item label='New page' icon={PlusCircle} onClick={() => {}} />
 					<Item label='Settings' icon={Settings} onClick={() => {}} />
+					<Item label='New page' icon={PlusCircle} onClick={createNewPage} />
 				</div>
 				<div className='mt-4'>
-					{(documents || []).map(document => (
-						<p key={document?._id}>{document.title}</p>
-					))}
+					<DocumentList />
 				</div>
 				<div
 					onMouseDown={handleMouseDown}

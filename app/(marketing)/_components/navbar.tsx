@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useConvexAuth } from "convex/react";
-import { SignInButton, UserButton } from "@clerk/clerk-react";
+import { UserButton } from "@clerk/clerk-react";
 
 import { cn } from "@/lib/utils";
 import { useScrollTop } from "@/hooks";
@@ -10,11 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
 import { ModeToggle } from "@/components/mode-toggle";
 
-import { Logo } from ".";
+import { Logo, useGetInfoQuery } from ".";
+import { MainDialogAuth } from "@/components/auth";
 
 const Navbar = () => {
-	const { isLoading, isAuthenticated } = useConvexAuth();
 	const scrolled = useScrollTop();
+	const { data: userInfo, isPending } = useGetInfoQuery();
 	return (
 		<div
 			className={cn(
@@ -24,20 +25,14 @@ const Navbar = () => {
 			<Logo />
 
 			<div className='md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2'>
-				{isLoading && <Spinner />}
-				{!isAuthenticated && !isLoading && (
+				{isPending && <Spinner />}
+				{!userInfo?.id && !isPending && (
 					<>
-						<SignInButton mode='modal'>
-							<Button variant='ghost' size='sm'>
-								Log in
-							</Button>
-						</SignInButton>
-						<SignInButton mode='modal'>
-							<Button size='sm'>Get Jotion free</Button>
-						</SignInButton>
+						<MainDialogAuth />
+						<MainDialogAuth mode='SignUp' />
 					</>
 				)}
-				{isAuthenticated && !isLoading && (
+				{!userInfo?.id && !isPending && (
 					<>
 						<Button variant='ghost' size='sm' asChild>
 							<Link href='/documents'>Enter Jotion</Link>

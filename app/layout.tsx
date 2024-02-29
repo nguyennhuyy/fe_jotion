@@ -3,7 +3,12 @@ import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 
 import "./globals.css";
-import { ConvexClientProvider, ThemeProvider } from "@/components/providers";
+import {
+	ConvexClientProvider,
+	ThemeProvider,
+	TanstackProvider
+} from "@/components/providers";
+
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -32,17 +37,19 @@ export default function RootLayout({
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body className={inter.className}>
-				<ConvexClientProvider>
-					<ThemeProvider
-						attribute='class'
-						defaultTheme='system'
-						enableSystem
-						disableTransitionOnChange
-						storageKey='jotion-theme-2'>
-						<Toaster position='bottom-center' />
-						{children}
-					</ThemeProvider>
-				</ConvexClientProvider>
+				<TanstackProvider>
+					<ConvexClientProvider>
+						<ThemeProvider
+							attribute='class'
+							defaultTheme='system'
+							enableSystem
+							disableTransitionOnChange
+							storageKey='jotion-theme-2'>
+							<Toaster position='bottom-center' />
+							{children}
+						</ThemeProvider>
+					</ConvexClientProvider>
+				</TanstackProvider>
 			</body>
 		</html>
 	);
