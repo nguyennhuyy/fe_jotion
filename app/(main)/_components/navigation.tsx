@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import {
 	ChevronLeftIcon,
 	MenuIcon,
+	Plus,
 	PlusCircle,
 	Search,
 	Settings
@@ -12,14 +13,14 @@ import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { DocumentList, Item, UserItem } from ".";
-import { socket } from "@/lib";
-import { EventName } from "./enum";
-import { useUser } from "@clerk/clerk-react";
+import { EventName, socket } from "@/lib";
+import { userStore } from "@/store";
+import SearchCommand from "@/components/search-command";
 
 const Navigation = () => {
 	const pathname = usePathname();
 	const isMoble = useMediaQuery("(max-width: 768px)");
-	const user = useUser();
+	const { user } = userStore();
 	const isResizingRef = useRef(false);
 	const sidebarRef = useRef<ElementRef<"aside">>(null);
 	const navbarRef = useRef<ElementRef<"div">>(null);
@@ -92,10 +93,10 @@ const Navigation = () => {
 
 	const createNewPage = () => {
 		socket.emit(EventName.CreateDocument, {
-			userId: "65d6a2aac456a359c9c7b4d2",
-			parentDocument: null
+			userId: user?.id
 		});
 	};
+
 	useEffect(() => {
 		isMoble ? collape() : resetWitdth();
 	}, [isMoble]);
@@ -123,12 +124,22 @@ const Navigation = () => {
 				</div>
 				<div>
 					<UserItem />
-					<Item label='Search' icon={Search} onClick={() => {}} isSearch />
-					<Item label='Settings' icon={Settings} onClick={() => {}} />
-					<Item label='New page' icon={PlusCircle} onClick={createNewPage} />
+					<SearchCommand
+						render={() => (
+							<Item
+								label='Tìm kiếm'
+								icon={Search}
+								onClick={() => {}}
+								isSearch
+							/>
+						)}
+					/>
+					<Item label='Cài đặt' icon={Settings} onClick={() => {}} />
+					<Item label='Trang mới' icon={PlusCircle} onClick={createNewPage} />
 				</div>
 				<div className='mt-4'>
 					<DocumentList />
+					<Item onClick={createNewPage} icon={Plus} label='Thêm một trang' />
 				</div>
 				<div
 					onMouseDown={handleMouseDown}

@@ -10,10 +10,14 @@ import { LoginType } from "@/types";
 import { KeyCookie } from "@/lib";
 import { Spinner } from "../spinner";
 import { AuthContext } from "./context";
+import { useCookie } from "@/hooks";
 
 const Login = () => {
 	const router = useRouter();
+
 	const { handleToggleAuth, handleOpenDialog } = useContext(AuthContext);
+	const { setItemCookie } = useCookie();
+
 	const { mutateAsync: mutateLogin, isPending: isPendingLogin } =
 		useLoginMutation();
 
@@ -25,7 +29,7 @@ const Login = () => {
 
 	const onSubmit: SubmitHandler<LoginType> = async (data: LoginType) => {
 		const response = await mutateLogin(data);
-		Cookies.set(KeyCookie.Token, response.accessToken);
+		setItemCookie(KeyCookie.Token, response.accessToken);
 		toast.success("Đăng nhập thành công");
 		handleOpenDialog?.();
 		router.push("/documents");

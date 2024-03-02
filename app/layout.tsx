@@ -6,7 +6,8 @@ import "./globals.css";
 import {
 	ConvexClientProvider,
 	ThemeProvider,
-	TanstackProvider
+	TanstackProvider,
+	GoogleProvider
 } from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,19 +38,21 @@ export default function RootLayout({
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body className={inter.className}>
-				<TanstackProvider>
-					<ConvexClientProvider>
-						<ThemeProvider
-							attribute='class'
-							defaultTheme='system'
-							enableSystem
-							disableTransitionOnChange
-							storageKey='jotion-theme-2'>
-							<Toaster position='bottom-center' />
-							{children}
-						</ThemeProvider>
-					</ConvexClientProvider>
-				</TanstackProvider>
+				<GoogleProvider>
+					<TanstackProvider>
+						<ConvexClientProvider>
+							<ThemeProvider
+								attribute='class'
+								defaultTheme='system'
+								enableSystem
+								disableTransitionOnChange
+								storageKey='jotion-theme-2'>
+								<Toaster position='bottom-center' />
+								{children}
+							</ThemeProvider>
+						</ConvexClientProvider>
+					</TanstackProvider>
+				</GoogleProvider>
 			</body>
 		</html>
 	);

@@ -6,3 +6,7 @@ export * from "./skeleton";
 export * from "./label";
 export * from "./input";
 export * from "./validator";
+export * from "./popover";
+export * from "./textarea";
+export * from "./tabs";
+export * from "./command";

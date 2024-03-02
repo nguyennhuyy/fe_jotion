@@ -1,21 +1,20 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useConvexAuth } from "convex/react";
-import { UserButton } from "@clerk/clerk-react";
 
 import { cn } from "@/lib/utils";
-import { useScrollTop } from "@/hooks";
+import { useCookie, useScrollTop } from "@/hooks";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/spinner";
 import { ModeToggle } from "@/components/mode-toggle";
 
-import { Logo, useGetInfoQuery } from ".";
+import { Logo } from ".";
 import { MainDialogAuth } from "@/components/auth";
+import { KeyCookie } from "@/lib";
 
 const Navbar = () => {
 	const scrolled = useScrollTop();
-	const { data: userInfo, isPending } = useGetInfoQuery();
+	const { getItemCookie } = useCookie();
+	const token = getItemCookie(KeyCookie.Token);
 	return (
 		<div
 			className={cn(
@@ -25,19 +24,17 @@ const Navbar = () => {
 			<Logo />
 
 			<div className='md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2'>
-				{isPending && <Spinner />}
-				{!userInfo?.id && !isPending && (
+				{!token && (
 					<>
 						<MainDialogAuth />
 						<MainDialogAuth mode='SignUp' />
 					</>
 				)}
-				{!userInfo?.id && !isPending && (
+				{token && (
 					<>
 						<Button variant='ghost' size='sm' asChild>
-							<Link href='/documents'>Enter Jotion</Link>
+							<Link href='/documents'>Vào Jotion</Link>
 						</Button>
-						<UserButton afterSignOutUrl='/' />
 					</>
 				)}
 				<ModeToggle />

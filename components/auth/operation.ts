@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { loginApi, signUpApi } from "@/apis";
+import { loginApi, loginGoogleApi, signUpApi } from "@/apis";
 import { TypeQuery } from ".";
 
 export const useLoginMutation = () =>
@@ -13,4 +13,10 @@ export const useSignUpMutation = () =>
 	useMutation({
 		mutationKey: [TypeQuery.SignUp],
 		mutationFn: signUpApi
+	});
+
+export const useLoginGoogleMutation = () =>
+	useMutation({
+		mutationKey: [TypeQuery.LoginGoogle],
+		mutationFn: loginGoogleApi
 	});

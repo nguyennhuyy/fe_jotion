@@ -1,5 +1,10 @@
 import { api } from "@/lib";
-import { LoginResponse, LoginType, RegisterType } from "@/types";
+import {
+	LoginGoogleType,
+	LoginResponse,
+	LoginType,
+	RegisterType
+} from "@/types";
 
 export const loginApi = async (body: LoginType): Promise<LoginResponse> => {
 	const data = await api.post("/auth/login", body);
@@ -7,5 +12,12 @@ export const loginApi = async (body: LoginType): Promise<LoginResponse> => {
 };
 export const signUpApi = async (body: RegisterType): Promise<LoginResponse> => {
 	const data = await api.post("/auth/register", body);
+	return data.data;
+};
+
+export const loginGoogleApi = async (
+	body: LoginGoogleType
+): Promise<LoginResponse> => {
+	const data = await api.post("/auth/login-google", body);
 	return data.data;
 };

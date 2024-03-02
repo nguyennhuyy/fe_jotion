@@ -11,3 +11,8 @@ export type DocumentItem = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+
+export type UpdateCoverType = {
+	id?: string;
+	coverImage: string;
+};

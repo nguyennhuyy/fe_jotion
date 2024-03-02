@@ -5,3 +5,4 @@ export * from "./operation";
 export * from "./enum";
 export { default as Login } from "./login";
 export { default as SignUp } from "./sign-up";
+export { default as Social } from "./social";

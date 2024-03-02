@@ -19,3 +19,7 @@ export type LoginResponse = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+
+export type LoginGoogleType = {
+	accessToken: string;
+};

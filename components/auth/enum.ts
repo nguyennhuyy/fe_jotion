@@ -1,6 +1,7 @@
 export enum TypeQuery {
 	Login = "Login",
-	SignUp = "SignUp"
+	SignUp = "SignUp",
+	LoginGoogle = "LoginGoogle"
 }
 
 export enum TypeToggle {

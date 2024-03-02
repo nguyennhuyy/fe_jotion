@@ -8,7 +8,7 @@ import {
 	DialogTitle
 } from "../ui";
 
-import { Login, SignUp } from ".";
+import { Login, SignUp, Social } from ".";
 import { AuthContext } from "./context";
 
 type DialogAuthType = React.HTMLAttributes<HTMLDivElement> & {
@@ -36,6 +36,8 @@ const DialogAuth = ({ mode = "Login", ...props }: DialogAuthType) => {
 							để tiếp tục với ứng dụng Jotion
 						</p>
 					</DialogTitle>
+					<Social />
+
 					{toggleAuth ? <Login /> : <SignUp />}
 				</DialogHeader>
 			</DialogContent>

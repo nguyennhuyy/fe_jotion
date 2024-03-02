@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronsLeftRight } from "lucide-react";
-import { useUser, SignOutButton } from "@clerk/clerk-react";
+import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -11,10 +11,20 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { useCookie } from "@/hooks";
+import { Button } from "@/components/ui";
+import { KeyCookie } from "@/lib";
+import { userStore } from "@/store";
 
 const UserItem = () => {
-	const { user } = useUser();
+	const router = useRouter();
+	const { user } = userStore();
+	const { removeItemCookie } = useCookie();
 
+	const handleLogOut = () => {
+		removeItemCookie(KeyCookie.Token);
+		router.push("/");
+	};
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -23,10 +33,10 @@ const UserItem = () => {
 					className='flex items-center text-sm p-3 w-full hover:bg-primary/5'>
 					<div className='gap-x-2 flex items-center max-w-[150px]'>
 						<Avatar className='h-5 w-5'>
-							<AvatarImage src={user?.imageUrl} />
+							<AvatarImage src={user?.avatar || "/logo.svg"} />
 						</Avatar>
 						<span className='text-start font-medium line-clamp-1'>
-							{user?.fullName}&apos;s Jotion
+							{user?.fullname}&apos;s Jotion
 						</span>
 					</div>
 					<ChevronsLeftRight className='rotate-90 ml-2 text-muted-foreground h-4 w-4' />
@@ -39,17 +49,17 @@ const UserItem = () => {
 				forceMount>
 				<div className='flex flex-col space-y-4 p-2'>
 					<p className='text-xs font-medium leading-none text-muted-foreground'>
-						{user?.emailAddresses[0].emailAddress}
+						{user?.email}
 					</p>
 					<div className='flex items-center gap-x-2'>
 						<div className='rounded-md bg-secondary p-1'>
 							<Avatar className='h-8 w-8'>
-								<AvatarImage src={user?.imageUrl} />
+								<AvatarImage src={user?.avatar || "/logo.svg"} />
 							</Avatar>
 						</div>
 						<div className='space-y-1'>
 							<p className='text-sm line-clamp-1'>
-								{user?.fullName}&apos;s Jotion
+								{user?.fullname}&apos;s Jotion
 							</p>
 						</div>
 					</div>
@@ -58,7 +68,9 @@ const UserItem = () => {
 				<DropdownMenuItem
 					asChild
 					className='w-full cursor-pointer text-muted-foreground'>
-					<SignOutButton>Log out</SignOutButton>
+					<Button variant='ghost' onClick={handleLogOut}>
+						Đăng xuất
+					</Button>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

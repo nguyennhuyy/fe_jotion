@@ -10,10 +10,13 @@ import { RegisterType } from "@/types";
 import { KeyCookie } from "@/lib";
 import { Spinner } from "../spinner";
 import { AuthContext } from "./context";
+import { useCookie } from "@/hooks";
 
 const SignUp = () => {
 	const router = useRouter();
 	const { handleToggleAuth, handleOpenDialog } = useContext(AuthContext);
+
+	const { setItemCookie } = useCookie();
 
 	const { mutateAsync: mutateSignUp, isPending: isPendingLogin } =
 		useSignUpMutation();
@@ -27,7 +30,7 @@ const SignUp = () => {
 
 	const onSubmit: SubmitHandler<RegisterType> = async (data: RegisterType) => {
 		const response = await mutateSignUp(data);
-		Cookies.set(KeyCookie.Token, response.accessToken);
+		setItemCookie(KeyCookie.Token, response.accessToken);
 		toast.success("Đăng ký tài khoản thành công");
 		reset(undefined);
 		handleOpenDialog?.();
