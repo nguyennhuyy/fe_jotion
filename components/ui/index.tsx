@@ -10,3 +10,4 @@ export * from "./popover";
 export * from "./textarea";
 export * from "./tabs";
 export * from "./command";
+export * from "./tooltip";

@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { File } from "lucide-react";
+import { File, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -9,11 +9,13 @@ import {
 	CommandGroup,
 	CommandInput,
 	CommandItem,
-	CommandList
+	CommandList,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
 } from "./ui";
 import { documentStore } from "@/store";
 import { DocumentItem } from "@/types";
-import { ModeToggle } from "./mode-toggle";
 
 type SearchCommandType = {
 	render?: () => ReactNode;
@@ -50,15 +52,19 @@ const SearchCommand = ({ render, disableCmd }: SearchCommandType) => {
 			{render ? (
 				<slot onClick={onOpenShare}>{render?.()}</slot>
 			) : (
-				<div className='flex items-center justify-end px-7 py-1 sticky inset-0 z-50 bg-white shadow dark:bg-secondary gap-2'>
-					<Button
-						variant='ghost'
-						onClick={onOpenShare}
-						className='rounded-sm h-max py-1 px-2 dark:hover:bg-slate-400'>
-						Chia sẻ
-					</Button>
-					<ModeToggle />
-				</div>
+				<Tooltip disableHoverableContent>
+					<TooltipTrigger asChild>
+						<Button
+							variant='ghost'
+							onClick={onOpenShare}
+							className='rounded-sm h-max py-1 px-2 dark:hover:bg-slate-400'>
+							<Search className='stroke-[1.5]' />
+						</Button>
+					</TooltipTrigger>
+					<TooltipContent>
+						Tìm kiếm <span className='text-xs'>⌘</span> K
+					</TooltipContent>
+				</Tooltip>
 			)}
 			<CommandDialog open={open} onOpenChange={setOpen}>
 				<CommandInput placeholder='Tìm kiếm tài liệu...' />

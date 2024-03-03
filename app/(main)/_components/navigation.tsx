@@ -139,7 +139,12 @@ const Navigation = () => {
 				</div>
 				<div className='mt-4'>
 					<DocumentList />
-					<Item onClick={createNewPage} icon={Plus} label='Thêm một trang' />
+					<Item
+						className='mt-4'
+						onClick={createNewPage}
+						icon={Plus}
+						label='Thêm một trang'
+					/>
 				</div>
 				<div
 					onMouseDown={handleMouseDown}

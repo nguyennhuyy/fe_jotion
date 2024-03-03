@@ -16,3 +16,8 @@ export type UpdateCoverType = {
 	id?: string;
 	coverImage: string;
 };
+
+export type UpdatePublishType = {
+	id: string;
+	isPublished: boolean;
+};

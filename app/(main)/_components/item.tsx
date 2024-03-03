@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger
 } from "@/components/ui";
 
-interface ItemProps {
+type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
 	id?: String;
 	documentIcon?: string;
 	active?: boolean;
@@ -20,7 +20,7 @@ interface ItemProps {
 	onClick?: () => void;
 	onDelete?: () => void;
 	icon: string | LucideIcon;
-}
+};
 
 const Item = ({
 	id,
@@ -30,7 +30,9 @@ const Item = ({
 	icon: Icon,
 	active,
 	documentIcon,
-	isSearch
+	isSearch,
+	className,
+	...props
 }: ItemProps) => {
 	return (
 		<div
@@ -38,8 +40,10 @@ const Item = ({
 			role='button'
 			className={cn(
 				"group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium pl-[15px]",
-				active && "bg-primary/5 text-primary"
-			)}>
+				active && "bg-primary/5 text-primary",
+				className
+			)}
+			{...props}>
 			{documentIcon ? (
 				<div className='shrink-0 mr-2 text-[18px] w-[18px]'>{documentIcon}</div>
 			) : (

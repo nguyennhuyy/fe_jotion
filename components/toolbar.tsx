@@ -12,9 +12,10 @@ import { useParams } from "next/navigation";
 
 interface ToolbarProps {
 	initialData: any;
+	preview?: boolean;
 }
 
-const Toolbar = ({ initialData }: ToolbarProps) => {
+const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 	const params = useParams();
 	const { user } = userStore();
 	const inputRef = useRef<ElementRef<"textarea">>(null);
@@ -27,6 +28,7 @@ const Toolbar = ({ initialData }: ToolbarProps) => {
 	const { onOpen } = useCoverStore();
 
 	const enableInput = () => {
+		if (preview) return;
 		setIsEditing(true);
 		setTimeout(() => {
 			setValue(initialData.title);
@@ -77,7 +79,7 @@ const Toolbar = ({ initialData }: ToolbarProps) => {
 
 	return (
 		<div className='pl-[54px] group relative'>
-			{!!icon && (
+			{!!icon && !preview && (
 				<div className='flex items-center gap-x-2 group/icon pt-6'>
 					<IconPicker onChange={onIconSelect}>
 						<p className='text-6xl hover:opacity-75 transition'>{icon}</p>
@@ -92,7 +94,7 @@ const Toolbar = ({ initialData }: ToolbarProps) => {
 				</div>
 			)}
 			<div className='opacity-0 group-hover:opacity-100 flex items-center gap-x-1 py-4'>
-				{!icon && (
+				{!icon && !preview && (
 					<IconPicker asChild onChange={onIconSelect}>
 						<Button
 							className='text-muted-foreground text-xs'
@@ -114,7 +116,7 @@ const Toolbar = ({ initialData }: ToolbarProps) => {
 					</Button>
 				)}
 			</div>
-			{isEditing ? (
+			{isEditing && !preview ? (
 				<Textarea
 					ref={inputRef}
 					onBlur={disableInput}

@@ -18,9 +18,10 @@ import { TypeQuery } from "./enum";
 
 interface CoverImageProps {
 	url?: string;
+	preview?: boolean;
 }
 
-export const Cover = ({ url }: CoverImageProps) => {
+export const Cover = ({ url, preview }: CoverImageProps) => {
 	const params = useParams();
 
 	const { url: urlStore, onOpen, onReplace } = useCoverStore();
@@ -68,7 +69,7 @@ export const Cover = ({ url }: CoverImageProps) => {
 						className='object-cover'
 					/>
 				)}
-				{urlStore && (
+				{urlStore && !preview && (
 					<div className='opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2'>
 						<Button
 							onClick={onOpenModalUpload}

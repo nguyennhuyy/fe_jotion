@@ -9,7 +9,7 @@ import {
 	TanstackProvider,
 	GoogleProvider
 } from "@/components/providers";
-
+import { TooltipProvider } from "@/components/ui";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -48,7 +48,7 @@ export default function RootLayout({
 								disableTransitionOnChange
 								storageKey='jotion-theme-2'>
 								<Toaster position='bottom-center' />
-								{children}
+								<TooltipProvider delayDuration={10}>{children}</TooltipProvider>
 							</ThemeProvider>
 						</ConvexClientProvider>
 					</TanstackProvider>
