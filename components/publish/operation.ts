@@ -11,5 +11,6 @@ export const useUpdatePublishMutation = () =>
 export const useGetPublicDocsQuery = (id: string) =>
 	useQuery({
 		queryKey: [TypeQuery.PublicDocs, id],
-		queryFn: () => getPublicDocumentsApi(id)
+		queryFn: () => getPublicDocumentsApi(id),
+		enabled: !!id
 	});

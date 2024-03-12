@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import SearchCommand from "@/components/search-command";
 
-import { Navigation } from "./_components";
+import { Navigation } from "./_components/documents";
 import { KeyCookie } from "@/lib";
 import { useCookie, useUser } from "@/hooks";
 import { ModeToggle } from "@/components/mode-toggle";

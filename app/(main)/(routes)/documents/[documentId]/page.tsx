@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { Cover } from "@/components/cover";
 import { Skeleton } from "@/components/ui";
-import { useDetailDocumentQuery } from "./_query";
+import { useDetailDocumentQuery } from "../../../_query";
 import { EventName, socket } from "@/lib";
 import { userStore } from "@/store";
 import Toolbar from "@/components/toolbar";
@@ -23,7 +23,6 @@ const DocumentIdPage = ({ params }: DocumentIdProps) => {
 	);
 
 	const router = useRouter();
-
 	const { user } = userStore();
 
 	const { data: document, isError } = useDetailDocumentQuery(params.documentId);
