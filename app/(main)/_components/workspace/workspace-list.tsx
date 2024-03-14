@@ -1,33 +1,29 @@
 "use client";
-import React, { useContext, useState } from "react";
-import { Droppable } from "react-beautiful-dnd";
+import React from "react";
+import { Droppable } from "@hello-pangea/dnd";
 
 import { cn } from "@/lib";
-import { WorkSpaceContext, WorkSpaceItem } from ".";
+import { WorkSpaceItem } from ".";
 import { WorkSpaceType } from "@/types";
-
-const initial = Array.from({ length: 10 }, (v, k) => k).map(k => {
-	const custom = {
-		id: `id-${k}`,
-		content: `Quote ${k}`
-	};
-
-	return custom;
-});
 
 type WorkSpaceListType = {
 	work: WorkSpaceType[];
-	id?: string;
+	id: string;
 };
 const WorkSpaceList = ({ id, work }: WorkSpaceListType) => {
 	return (
-		<Droppable droppableId='LIST' type='QUOTE'>
+		<Droppable droppableId={id} type='card'>
 			{provided => (
-				<ol className={cn("overflow-auto pt-1")}>
-					{provided.placeholder}
+				<ol
+					className={cn("overflow-auto pt-1")}
+					ref={provided.innerRef}
+					{...provided.droppableProps}>
 					{work.map((item, index) => (
-						<WorkSpaceItem key={item.id} work={item} index={index} />
+						<div key={item.id}>
+							<WorkSpaceItem work={item} index={index} />
+						</div>
 					))}
+					{provided.placeholder}
 				</ol>
 			)}
 		</Droppable>

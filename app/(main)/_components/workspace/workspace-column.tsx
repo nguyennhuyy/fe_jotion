@@ -1,9 +1,9 @@
 "use client";
 import { MoreHorizontal, Plus } from "lucide-react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { cn } from "@/lib";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 import { WorkSpaceContext, WorkSpaceList } from ".";
 import { WorkSpaceType } from "@/types";
 
@@ -34,17 +34,18 @@ const WorkSpaceColumns = ({
 		});
 	};
 	return (
-		<Draggable {...props} draggableId={title} index={index}>
+		<Draggable {...props} draggableId={id} index={index}>
 			{provided => (
 				<li
 					ref={provided.innerRef}
 					{...provided.draggableProps}
-					{...provided.dragHandleProps}
 					className={cn(
 						"px-[6px] block whitespace-nowrap self-start h-full flex-shrink-0 "
 					)}>
 					<div className='w-[272px] max-h-full flex flex-col scroll-m-2 bg-[rgb(241,242,244)] shadow-[rgba(9,30,66,0.11)_0_1px_1px_0_,_rgba(9,30,66,0.1)_0_0_1px_0] rounded-xl justify-between pb-2'>
-						<div className='flex justify-between items-center pt-2 px-2'>
+						<div
+							className='flex justify-between items-center pt-2 px-2'
+							{...provided.dragHandleProps}>
 							<h2 className='relative text-sm text-[rgb(23,43,77)] font-medium'>
 								{title}
 							</h2>
@@ -54,7 +55,7 @@ const WorkSpaceColumns = ({
 						</div>
 						<div className='block h-2 mb-1' />
 						<ol className={cn("overflow-auto pt-1")}>
-							<WorkSpaceList work={work} id={title} />
+							<WorkSpaceList work={work} id={id} />
 						</ol>
 
 						<div

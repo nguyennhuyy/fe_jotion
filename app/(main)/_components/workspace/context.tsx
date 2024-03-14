@@ -2,16 +2,16 @@
 import { createContext, useState } from "react";
 import React from "react";
 
-import { useCreateWorkItemMutation, useWorkSpaceColQuery } from "../../_query";
+import { useWorkSpaceColQuery } from "../../_query";
 import { CreateWorkItemType, DataColType, WorkSpaceColType } from "@/types";
 
 type WorkSpaceType = {
 	workSpaceCol: WorkSpaceColType[];
 	openCreateItem: boolean;
 	dataCol: DataColType;
-	handleCreateWorkItem: (body: CreateWorkItemType) => void;
 	onToggleCreateItem: () => void;
 	handleSetDataCol: (data: DataColType) => void;
+	refetchCol: () => void;
 };
 
 export const WorkSpaceContext = createContext<Partial<WorkSpaceType>>({});
@@ -24,12 +24,7 @@ const WorkSpaceContextProvider = ({
 	const [openCreateItem, setOpenCreateItem] = useState<boolean>(false);
 	const [dataCol, setDataCol] = useState<DataColType>();
 
-	const { data: workSpaceCol } = useWorkSpaceColQuery();
-	const { mutateAsync: mutateCreateWorkItem } = useCreateWorkItemMutation();
-
-	const handleCreateWorkItem = async (body: CreateWorkItemType) => {
-		const response = mutateCreateWorkItem(body);
-	};
+	const { data: workSpaceCol, refetch: refetchCol } = useWorkSpaceColQuery();
 
 	const onToggleCreateItem = () => setOpenCreateItem(!openCreateItem);
 	const handleSetDataCol = (data: DataColType) => setDataCol(data);
@@ -39,9 +34,9 @@ const WorkSpaceContextProvider = ({
 				workSpaceCol,
 				openCreateItem,
 				dataCol,
-				handleCreateWorkItem,
 				onToggleCreateItem,
-				handleSetDataCol
+				handleSetDataCol,
+				refetchCol
 			}}>
 			{children}
 		</WorkSpaceContext.Provider>

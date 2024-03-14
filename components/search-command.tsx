@@ -61,7 +61,7 @@ const SearchCommand = ({ render, disableCmd }: SearchCommandType) => {
 							<Search className='stroke-[1.5]' />
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent>
+					<TooltipContent side='left'>
 						Tìm kiếm <span className='text-xs'>⌘</span> K
 					</TooltipContent>
 				</Tooltip>

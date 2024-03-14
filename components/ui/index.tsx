@@ -11,3 +11,6 @@ export * from "./textarea";
 export * from "./tabs";
 export * from "./command";
 export * from "./tooltip";
+export * from "./badge";
+export * from "./context-menu";
+export * from "./calendar";

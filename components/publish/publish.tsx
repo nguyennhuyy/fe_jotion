@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Globe, Link, MonitorPlay } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button, Popover, PopoverContent, PopoverTrigger } from "../ui";
@@ -11,6 +11,7 @@ type ParamsType = {
 };
 const Publish = () => {
 	const params = useParams<ParamsType>();
+	const pathname = usePathname();
 
 	const hostname = typeof window !== "undefined" && location.origin;
 	const linkPreview = `${hostname}/preview/${params.documentId}`;
@@ -71,9 +72,11 @@ const Publish = () => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button variant='ghost' className='h-max py-1 px-2 rounded-sm'>
-					Chia sẻ
-				</Button>
+				{pathname.includes("documents") && (
+					<Button variant='ghost' className='h-max py-1 px-2 rounded-sm'>
+						Chia sẻ
+					</Button>
+				)}
 			</PopoverTrigger>
 			<PopoverContent
 				forceMount
