@@ -21,7 +21,7 @@ export const createWorkItemApi = async (
 	body: CreateWorkItemType
 ): Promise<WorkSpaceListType[]> => {
 	const data = await api.post<WorkSpaceListType[]>(
-		`/workspace/create-item`,
+		`/workspace/create-card`,
 		body
 	);
 	return data.data;
@@ -63,5 +63,14 @@ export const updateCardApi = async (
 	body: UpdateCardType[]
 ): Promise<UpdateCardType[]> => {
 	const data = await api.put<UpdateCardType[]>(`/workspace/update-card`, body);
+	return data.data;
+};
+
+export const deleteListApi = async (
+	id: string
+): Promise<CreateWorkItemType> => {
+	const data = await api.delete<CreateWorkItemType>(
+		`/workspace/list-delete/${id}`
+	);
 	return data.data;
 };

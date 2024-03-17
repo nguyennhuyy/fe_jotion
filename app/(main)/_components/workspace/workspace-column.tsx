@@ -1,11 +1,12 @@
 "use client";
-import { MoreHorizontal, Plus } from "lucide-react";
-import React, { useContext } from "react";
+import { MoreHorizontal, Plus, Trash } from "lucide-react";
+import React, { useContext, useState } from "react";
 
 import { cn } from "@/lib";
 import { Draggable } from "@hello-pangea/dnd";
 import { WorkSpaceContext, WorkSpaceList } from ".";
 import { WorkSpaceType } from "@/types";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
 
 type WorkSpaceListType = React.HTMLAttributes<HTMLLIElement> & {
 	id: string;
@@ -24,8 +25,10 @@ const WorkSpaceColumns = ({
 	index,
 	...props
 }: WorkSpaceListType) => {
-	const { onToggleCreateItem, handleSetDataList } =
+	const { onToggleCreateItem, handleSetDataList, handleDeleteList } =
 		useContext(WorkSpaceContext);
+
+	const [openPopoverList, setOpenPopoverList] = useState<boolean>(false);
 
 	const onClickAddCard = () => {
 		onToggleCreateItem?.();
@@ -33,6 +36,13 @@ const WorkSpaceColumns = ({
 			id,
 			title
 		});
+	};
+
+	const handleOpenPopoverList = () => setOpenPopoverList(!openPopoverList);
+
+	const onDeleteList = () => {
+		handleDeleteList?.(id);
+		handleOpenPopoverList();
 	};
 	return (
 		<Draggable {...props} draggableId={id} index={index}>
@@ -47,12 +57,28 @@ const WorkSpaceColumns = ({
 						<div
 							className='flex justify-between items-center pt-2 px-2'
 							{...provided.dragHandleProps}>
-							<h2 className='relative text-sm text-[rgb(23,43,77)] font-medium'>
+							<h2 className='relative text-base text-[rgb(23,43,77)] font-semibold'>
 								{title}
 							</h2>
-							<div className='p-2 cursor-pointer'>
-								<MoreHorizontal className='w-4 h-4' />
-							</div>
+							<Popover
+								open={openPopoverList}
+								onOpenChange={handleOpenPopoverList}>
+								<PopoverTrigger asChild>
+									<div
+										className='p-2 cursor-pointer'
+										onClick={handleOpenPopoverList}>
+										<MoreHorizontal className='w-4 h-4' />
+									</div>
+								</PopoverTrigger>
+								<PopoverContent className='p-2'>
+									<div
+										className='flex items-center gap-1.5 cursor-pointer hover:bg-slate-100 py-3 px-2 rounded'
+										onClick={onDeleteList}>
+										<Trash className='w-4 h-4' />
+										<span className='text-sm'>Xoá</span>
+									</div>
+								</PopoverContent>
+							</Popover>
 						</div>
 
 						<div className='block h-2 mb-1' />

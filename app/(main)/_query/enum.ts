@@ -6,5 +6,6 @@ export enum TypeQuery {
 	CreateBoard = "CreateBoard",
 	CreateList = "CreateList",
 	UpdateBoard = "UpdateBoard",
-	UpdateCard = "UpdateCard"
+	UpdateCard = "UpdateCard",
+	DeleteList = "DeleteList"
 }

@@ -1,5 +1,5 @@
 "use client";
-import { Archive, FilePen, Pencil, Trash } from "lucide-react";
+import { Archive, Clock4, FilePen, Pencil, Trash } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib";
 import { Draggable } from "@hello-pangea/dnd";
@@ -42,18 +42,20 @@ const WorkSpaceItem = ({ card, index }: WorkSpaceItemType) => {
 								</div>
 								{card?.content}
 
-								{card?.date && (
-									<div className='flex gap-1.5 mt-1'>
-										{dayjs(card?.date).format("DD/MM")}
-									</div>
-								)}
-
 								{card?.tags.length > 0 && (
 									<div className='flex gap-1.5 mt-1'>
+										{card?.date && (
+											<div className='flex gap-1.5 mt-1 bg-[#ffd2cc] text-center rounded w-max p-1 text-xs text-[#ae2a19]'>
+												<Clock4 className='w-4 h-4 text-[#ae2a19]' />
+												{dayjs(card?.date).format("DD/MM")}
+											</div>
+										)}
 										{card.tags?.map((tag, idx) => (
-											<Badge className='bg-[#1f845a] rounded' key={idx}>
+											<div
+												key={idx}
+												className='flex gap-1.5 mt-1 bg-[#1f845a] text-center rounded w-max p-1 text-xs text-white font-medium px-2'>
 												{tag}
-											</Badge>
+											</div>
 										))}
 									</div>
 								)}

@@ -4,6 +4,7 @@ import React from "react";
 
 import {
 	useCreateListMutation,
+	useDeleteListMutation,
 	useUpdateBoardMutation,
 	useUpdateCarddMutation,
 	useWorkSpaceColQuery
@@ -28,6 +29,7 @@ type WorkSpaceType = {
 	handleCreateWorkList: (data: CreateListType) => void;
 	handleUpdateBoard: (data: UpdateListType[]) => void;
 	handleUpdateCard: (data: UpdateCardType[]) => void;
+	handleDeleteList: (id: string) => void;
 };
 
 export const WorkSpaceContext = createContext<Partial<WorkSpaceType>>({});
@@ -49,6 +51,7 @@ const WorkSpaceContextProvider = ({
 	const { mutateAsync: mutateCreateList } = useCreateListMutation();
 	const { mutateAsync: mutateUpdateBoard } = useUpdateBoardMutation();
 	const { mutateAsync: mutateUpdateCard } = useUpdateCarddMutation();
+	const { mutateAsync: mutateDeleteList } = useDeleteListMutation();
 
 	const onToggleCreateItem = () => setOpenCreateItem(!openCreateItem);
 	const handleSetDataList = (data: DataListType) => setDataList(data);
@@ -68,6 +71,17 @@ const WorkSpaceContextProvider = ({
 
 	const handleUpdateCard = (data: UpdateCardType[]) => mutateUpdateCard(data);
 
+	const handleDeleteList = (id: string) => {
+		const promise = mutateDeleteList(id);
+		return toast.promise(promise, {
+			loading: "Đang xoá danh sách",
+			success: () => {
+				refetchList?.();
+				return "Xoá danh sách thành công";
+			}
+		});
+	};
+
 	return (
 		<WorkSpaceContext.Provider
 			value={{
@@ -79,7 +93,8 @@ const WorkSpaceContextProvider = ({
 				refetchList,
 				handleCreateWorkList,
 				handleUpdateBoard,
-				handleUpdateCard
+				handleUpdateCard,
+				handleDeleteList
 			}}>
 			{children}
 		</WorkSpaceContext.Provider>

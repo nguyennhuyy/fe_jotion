@@ -36,14 +36,11 @@ const BoardItem = ({
 			{...props}
 			href={`/workspace/${id}`}
 			className={cn(
-				"p-2 rounded-[3px] bg-no-repeat bg-center bg-cover",
+				"p-2 rounded-[3px] bg-no-repeat bg-center bg-cover bg-slate-500",
 				className
 			)}
 			style={{
-				backgroundImage: `url(${
-					imageThumb ||
-					"https://d2k1ftgv7pobq7.cloudfront.net/images/backgrounds/gradients/rainbow.svg"
-				})`
+				backgroundImage: `url(${imageThumb})`
 			}}>
 			<div className='h-[80px]'>
 				<div title={title} className='font-semibold text-base text-white'>

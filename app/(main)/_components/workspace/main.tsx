@@ -188,6 +188,7 @@ const MainWorkSpace = () => {
 										{isNew ? (
 											<form onSubmit={handleSubmit(onSubmit)}>
 												<Input
+													autoFocus
 													{...register("title", {
 														required: true
 													})}

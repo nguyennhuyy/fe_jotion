@@ -4,6 +4,7 @@ import {
 	createBoardApi,
 	createWorkItemApi,
 	createWorkListApi,
+	deleteListApi,
 	getDocumentsApi,
 	getListBoardApi,
 	getWorkListApi,
@@ -58,4 +59,10 @@ export const useUpdateCarddMutation = () =>
 	useMutation({
 		mutationKey: [TypeQuery.UpdateCard],
 		mutationFn: updateCardApi
+	});
+
+export const useDeleteListMutation = () =>
+	useMutation({
+		mutationKey: [TypeQuery.DeleteList],
+		mutationFn: deleteListApi
 	});
