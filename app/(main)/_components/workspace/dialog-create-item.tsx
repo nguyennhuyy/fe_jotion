@@ -24,7 +24,7 @@ import { CreateWorkItemType } from "@/types";
 import { Spinner } from "@/components/spinner";
 import { cn } from "@/lib";
 const DialogCreateItem = () => {
-	const { openCreateItem, dataCol, onToggleCreateItem, refetchCol } =
+	const { openCreateItem, dataList, onToggleCreateItem, refetchList } =
 		useContext(WorkSpaceContext);
 
 	const [valueTags, setValueTags] = useState<string>();
@@ -44,14 +44,14 @@ const DialogCreateItem = () => {
 	const onSubmit = (data: CreateWorkItemType) => {
 		const newBody = {
 			...data,
-			workSpaceColId: dataCol?.id ?? "",
+			workListId: dataList?.id ?? "",
 			tags
 		};
 		const promise = createWorkItem(newBody);
 		toast.promise(promise, {
 			loading: "Đang tạo thẻ...",
 			success: () => {
-				refetchCol?.();
+				refetchList?.();
 				onToggleCreateItem?.();
 				reset(undefined);
 				setTags([]);
@@ -77,7 +77,7 @@ const DialogCreateItem = () => {
 				<DialogHeader>
 					<h2 className='text-black font-medium text-lg'>
 						Thêm tiêu đề thẻ cho cột{" "}
-						<span className='text-green-800'>{dataCol?.title}</span>
+						<span className='text-green-800'>{dataList?.title}</span>
 					</h2>
 				</DialogHeader>
 				<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-2'>

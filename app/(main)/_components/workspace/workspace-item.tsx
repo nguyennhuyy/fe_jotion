@@ -14,12 +14,12 @@ import {
 import dayjs from "dayjs";
 
 type WorkSpaceItemType = {
-	work: WorkSpaceType;
+	card: WorkSpaceType;
 	index: number;
 };
-const WorkSpaceItem = ({ work, index }: WorkSpaceItemType) => {
+const WorkSpaceItem = ({ card, index }: WorkSpaceItemType) => {
 	return (
-		<Draggable draggableId={work?.id} index={index}>
+		<Draggable draggableId={card?.id} index={index}>
 			{(provided, snapshot) => (
 				<div
 					ref={provided.innerRef}
@@ -34,23 +34,23 @@ const WorkSpaceItem = ({ work, index }: WorkSpaceItemType) => {
 							<div className='flow-root relative pt-2 px-3 pb-1 min-h-9 z-10'>
 								<div className='mb-1 flex justify-between items-center '>
 									<span className='text-sm text-[#172b4d] line-clamp-1'>
-										{work?.title}
+										{card?.title}
 									</span>
 									<div className='hidden group-hover:block rounded-full hover:bg-slate-200 p-1.5 absolute top-[2px] right-[2px] z-10'>
 										<Pencil className='w-3 h-3' />
 									</div>
 								</div>
-								{work?.content}
+								{card?.content}
 
-								{work?.date && (
+								{card?.date && (
 									<div className='flex gap-1.5 mt-1'>
-										{dayjs(work?.date).format("DD/MM")}
+										{dayjs(card?.date).format("DD/MM")}
 									</div>
 								)}
 
-								{work?.tags.length > 0 && (
+								{card?.tags.length > 0 && (
 									<div className='flex gap-1.5 mt-1'>
-										{work.tags?.map((tag, idx) => (
+										{card.tags?.map((tag, idx) => (
 											<Badge className='bg-[#1f845a] rounded' key={idx}>
 												{tag}
 											</Badge>

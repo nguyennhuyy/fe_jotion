@@ -4,4 +4,6 @@ export { default as WorkSpaceList } from "./workspace-list";
 export { default as WorkSpaceContextProvider } from "./context";
 export { default as MainWorkSpace } from "./main";
 export { default as DialogCreateItem } from "./dialog-create-item";
+export * from "./board-item";
+export { default as ListBoard } from "./list-board";
 export * from "./context";

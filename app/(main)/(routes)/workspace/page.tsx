@@ -1,16 +1,12 @@
-import {
-	DialogCreateItem,
-	MainWorkSpace,
-	WorkSpaceContextProvider
-} from "../../_components/workspace";
+import React from "react";
+import { ListBoard } from "../../_components/workspace";
 
-const WorkSpace = () => {
+const WorkSpacePage = () => {
 	return (
-		<WorkSpaceContextProvider>
-			<MainWorkSpace />
-			<DialogCreateItem />
-		</WorkSpaceContextProvider>
+		<div>
+			<ListBoard />
+		</div>
 	);
 };
 
-export default WorkSpace;
+export default WorkSpacePage;

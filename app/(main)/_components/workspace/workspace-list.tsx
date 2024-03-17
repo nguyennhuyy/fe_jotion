@@ -7,10 +7,10 @@ import { WorkSpaceItem } from ".";
 import { WorkSpaceType } from "@/types";
 
 type WorkSpaceListType = {
-	work: WorkSpaceType[];
+	cards: WorkSpaceType[];
 	id: string;
 };
-const WorkSpaceList = ({ id, work }: WorkSpaceListType) => {
+const WorkSpaceList = ({ id, cards }: WorkSpaceListType) => {
 	return (
 		<Droppable droppableId={id} type='card'>
 			{provided => (
@@ -18,9 +18,9 @@ const WorkSpaceList = ({ id, work }: WorkSpaceListType) => {
 					className={cn("overflow-auto pt-1")}
 					ref={provided.innerRef}
 					{...provided.droppableProps}>
-					{work.map((item, index) => (
+					{cards.map((item, index) => (
 						<div key={item.id}>
-							<WorkSpaceItem work={item} index={index} />
+							<WorkSpaceItem card={item} index={index} />
 						</div>
 					))}
 					{provided.placeholder}

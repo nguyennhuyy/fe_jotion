@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import {
 	ChevronLeftIcon,
+	LayoutDashboard,
 	MenuIcon,
 	Plus,
 	PlusCircle,
@@ -16,6 +17,7 @@ import { DocumentList, Item, UserItem } from ".";
 import { EventName, socket } from "@/lib";
 import { userStore } from "@/store";
 import SearchCommand from "@/components/search-command";
+import Link from "next/link";
 
 const Navigation = () => {
 	const pathname = usePathname();
@@ -125,16 +127,12 @@ const Navigation = () => {
 				<div>
 					<UserItem />
 					<SearchCommand
-						render={() => (
-							<Item
-								label='Tìm kiếm'
-								icon={Search}
-								onClick={() => {}}
-								isSearch
-							/>
-						)}
+						render={() => <Item label='Tìm kiếm' icon={Search} isSearch />}
 					/>
 					<Item label='Cài đặt' icon={Settings} onClick={() => {}} />
+					<Link href='/workspace'>
+						<Item label='Bảng biểu' icon={LayoutDashboard} onClick={() => {}} />
+					</Link>
 					<Item label='Trang mới' icon={PlusCircle} onClick={createNewPage} />
 				</div>
 				<div className='mt-4'>

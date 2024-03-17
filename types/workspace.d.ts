@@ -6,27 +6,89 @@ export type WorkSpaceType = {
 	order: number;
 	date: Date;
 	tags: string[];
-	workSpaceColId: string;
-	createdAt: string;
-	updatedAt: string;
+	workListId: string;
+	createdAt: Date;
+	updatedAt: Date;
 };
-export type WorkSpaceColType = {
+export type WorkSpaceListType = {
 	id: string;
 	title: string;
 	userId: string;
 	order: number;
-	work: WorkSpaceType[];
+	cards: WorkSpaceType[];
 	updatedAt: Date;
 	createdAt: Date;
+};
+
+export type WorkListResponse = {
+	board: BoardsTypes;
+	list: WorkSpaceListType[];
 };
 
 export type CreateWorkItemType = {
 	title: string;
 	content: string;
-	workSpaceColId: string;
+	workListId: string;
 	date?: Date;
 	tags?: string[];
 	avatar?: string;
 };
 
-export type DataColType = Pick<WorkSpaceColType, "id" | "title">;
+export type DataListType = Pick<WorkSpaceListType, "id" | "title">;
+export type BoardsTypes = {
+	id: string;
+	title: string;
+	imageThumb: string;
+	userId: string;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type CreateBoardType = {
+	title: string;
+	imageThumb: string;
+};
+
+export type ResponseCreateBoardType = {
+	id: string;
+	title: string;
+	userId: string;
+	imageThumb?: string;
+	createdAt: Date;
+	updatedAt: Date;
+};
+export type CreateListType = {
+	title: string;
+	boardId: string;
+};
+
+export type ResponseCreateListType = Omit<
+	ResponseCreateBoardType,
+	"imageThumb"
+> & {
+	order: number | null;
+};
+
+export type UpdateListType = {
+	id: string;
+	title: string;
+	order: number;
+	userId: string;
+	cards: WorkSpaceType[];
+	boardId?: string;
+	createdAt: Date;
+	updatedAt: Date;
+};
+
+export type UpdateCardType = {
+	id: string;
+	title: string;
+	content: string;
+	order: number;
+	avatar: string;
+	date: Date;
+	tags: string[];
+	workListId: string;
+	createdAt: Date;
+	updatedAt: Date;
+};

@@ -7,11 +7,11 @@ import { Draggable } from "@hello-pangea/dnd";
 import { WorkSpaceContext, WorkSpaceList } from ".";
 import { WorkSpaceType } from "@/types";
 
-type WorkSpaceColType = React.HTMLAttributes<HTMLLIElement> & {
+type WorkSpaceListType = React.HTMLAttributes<HTMLLIElement> & {
 	id: string;
 	title: string;
 	children?: React.ReactNode;
-	work: WorkSpaceType[];
+	cards: WorkSpaceType[];
 	index: number;
 };
 
@@ -19,16 +19,17 @@ const WorkSpaceColumns = ({
 	id,
 	className,
 	title,
-	work,
+	cards,
 	children,
 	index,
 	...props
-}: WorkSpaceColType) => {
-	const { onToggleCreateItem, handleSetDataCol } = useContext(WorkSpaceContext);
+}: WorkSpaceListType) => {
+	const { onToggleCreateItem, handleSetDataList } =
+		useContext(WorkSpaceContext);
 
 	const onClickAddCard = () => {
 		onToggleCreateItem?.();
-		handleSetDataCol?.({
+		handleSetDataList?.({
 			id,
 			title
 		});
@@ -53,13 +54,12 @@ const WorkSpaceColumns = ({
 								<MoreHorizontal className='w-4 h-4' />
 							</div>
 						</div>
-						<div className='block h-2 mb-1' />
-						<ol className={cn("overflow-auto pt-1")}>
-							<WorkSpaceList work={work} id={id} />
-						</ol>
 
+						<div className='block h-2 mb-1' />
+						<WorkSpaceList cards={cards} id={id} />
 						<div
 							onClick={onClickAddCard}
+							onDragOver={e => e.preventDefault()}
 							className={cn(
 								"flex items-center justify-between gap-x-1 py-2 mx-2 rounded-lg ",
 								"hover:bg-slate-300/70 cursor-pointer"
