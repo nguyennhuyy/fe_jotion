@@ -1,9 +1,10 @@
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import React from "react";
 
 import {
 	useCreateListMutation,
+	useDeleteCardMutation,
 	useDeleteListMutation,
 	useUpdateBoardMutation,
 	useUpdateCarddMutation,
@@ -14,15 +15,17 @@ import {
 	DataListType,
 	UpdateCardType,
 	UpdateListType,
-	WorkListResponse
+	WorkListResponse,
+	WorkSpaceType
 } from "@/types";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
-type WorkSpaceType = {
+type WorkSpaceContextType = {
 	workList: WorkListResponse;
 	openCreateItem: boolean;
 	dataList: DataListType;
+	dataCard: WorkSpaceType;
 	onToggleCreateItem: () => void;
 	handleSetDataList: (data: DataListType) => void;
 	refetchList: () => void;
@@ -30,9 +33,13 @@ type WorkSpaceType = {
 	handleUpdateBoard: (data: UpdateListType[]) => void;
 	handleUpdateCard: (data: UpdateCardType[]) => void;
 	handleDeleteList: (id: string) => void;
+	handleDeleteCard: (id: string) => void;
+	handleSetDataCard: (data: WorkSpaceType) => void;
 };
 
-export const WorkSpaceContext = createContext<Partial<WorkSpaceType>>({});
+export const WorkSpaceContext = createContext<Partial<WorkSpaceContextType>>(
+	{}
+);
 
 const WorkSpaceContextProvider = ({
 	children
@@ -43,6 +50,7 @@ const WorkSpaceContextProvider = ({
 
 	const [openCreateItem, setOpenCreateItem] = useState<boolean>(false);
 	const [dataList, setDataList] = useState<DataListType>();
+	const [dataCard, setDataCard] = useState<WorkSpaceType>();
 
 	const { data: workList, refetch: refetchList } = useWorkSpaceColQuery(
 		params?.workspaceId as string
@@ -52,9 +60,13 @@ const WorkSpaceContextProvider = ({
 	const { mutateAsync: mutateUpdateBoard } = useUpdateBoardMutation();
 	const { mutateAsync: mutateUpdateCard } = useUpdateCarddMutation();
 	const { mutateAsync: mutateDeleteList } = useDeleteListMutation();
+	const { mutateAsync: mutateDeleteCard } = useDeleteCardMutation();
 
 	const onToggleCreateItem = () => setOpenCreateItem(!openCreateItem);
+
 	const handleSetDataList = (data: DataListType) => setDataList(data);
+
+	const handleSetDataCard = (data: WorkSpaceType) => setDataCard(data);
 
 	const handleCreateWorkList = async (data: CreateListType) => {
 		const promise = mutateCreateList(data);
@@ -82,19 +94,39 @@ const WorkSpaceContextProvider = ({
 		});
 	};
 
+	const handleDeleteCard = (id: string) => {
+		const promise = mutateDeleteCard(id);
+		return toast.promise(promise, {
+			loading: "Đang xoá thẻ",
+			success: () => {
+				refetchList?.();
+				return "Xoá thẻ thành công";
+			}
+		});
+	};
+
+	useEffect(() => {
+		if (!openCreateItem) {
+			setDataCard(undefined);
+		}
+	}, [openCreateItem]);
+
 	return (
 		<WorkSpaceContext.Provider
 			value={{
 				workList,
 				openCreateItem,
 				dataList,
+				dataCard,
 				onToggleCreateItem,
 				handleSetDataList,
 				refetchList,
 				handleCreateWorkList,
 				handleUpdateBoard,
 				handleUpdateCard,
-				handleDeleteList
+				handleDeleteList,
+				handleDeleteCard,
+				handleSetDataCard
 			}}>
 			{children}
 		</WorkSpaceContext.Provider>

@@ -6,6 +6,7 @@ import {
 	CreateWorkItemType,
 	ResponseCreateBoardType,
 	ResponseCreateListType,
+	UpdateCardInfoType,
 	UpdateCardType,
 	UpdateListType,
 	WorkListResponse,
@@ -71,6 +72,25 @@ export const deleteListApi = async (
 ): Promise<CreateWorkItemType> => {
 	const data = await api.delete<CreateWorkItemType>(
 		`/workspace/list-delete/${id}`
+	);
+	return data.data;
+};
+
+export const deleteCardApi = async (
+	id: string
+): Promise<CreateWorkItemType> => {
+	const data = await api.delete<CreateWorkItemType>(
+		`/workspace/delete-card/${id}`
+	);
+	return data.data;
+};
+
+export const updateCardInfoApi = async (
+	body: UpdateCardInfoType
+): Promise<CreateWorkItemType> => {
+	const data = await api.put<CreateWorkItemType>(
+		`/workspace/update-card-info`,
+		body
 	);
 	return data.data;
 };

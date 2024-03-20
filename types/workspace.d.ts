@@ -92,3 +92,12 @@ export type UpdateCardType = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+
+export type UpdateCardInfoType = {
+	id: string;
+	title: string;
+	content: string;
+	avatar?: string;
+	date?: Date;
+	tags: string[];
+};

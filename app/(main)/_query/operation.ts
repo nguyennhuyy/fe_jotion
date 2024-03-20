@@ -4,12 +4,14 @@ import {
 	createBoardApi,
 	createWorkItemApi,
 	createWorkListApi,
+	deleteCardApi,
 	deleteListApi,
 	getDocumentsApi,
 	getListBoardApi,
 	getWorkListApi,
 	updateBoardApi,
-	updateCardApi
+	updateCardApi,
+	updateCardInfoApi
 } from "@/apis";
 
 export const useDetailDocumentQuery = (id: string) =>
@@ -65,4 +67,16 @@ export const useDeleteListMutation = () =>
 	useMutation({
 		mutationKey: [TypeQuery.DeleteList],
 		mutationFn: deleteListApi
+	});
+
+export const useDeleteCardMutation = () =>
+	useMutation({
+		mutationKey: [TypeQuery.DeleteList],
+		mutationFn: deleteCardApi
+	});
+
+export const useUpdateCardInfoMutation = () =>
+	useMutation({
+		mutationKey: [TypeQuery.UpdateCardInfo],
+		mutationFn: updateCardInfoApi
 	});

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import dayjs from "dayjs";
@@ -19,20 +19,31 @@ import {
 	Textarea
 } from "@/components/ui";
 import { WorkSpaceContext } from ".";
-import { useCreateWorkItemMutation } from "../../_query";
+import {
+	useCreateWorkItemMutation,
+	useUpdateCardInfoMutation
+} from "../../_query";
 import { CreateWorkItemType } from "@/types";
 import { Spinner } from "@/components/spinner";
 import { cn } from "@/lib";
 const DialogCreateItem = () => {
-	const { openCreateItem, dataList, onToggleCreateItem, refetchList } =
-		useContext(WorkSpaceContext);
+	const {
+		openCreateItem,
+		dataList,
+		dataCard,
+		onToggleCreateItem,
+		refetchList
+	} = useContext(WorkSpaceContext);
 
+	console.log("dataCard", dataCard);
 	const [valueTags, setValueTags] = useState<string>();
 	const [tags, setTags] = useState<string[]>([]);
 
 	const { mutateAsync: createWorkItem, isPending } =
 		useCreateWorkItemMutation();
 
+	const { mutateAsync: mutateUpdateCarInfo, isPending: isPendingUpdate } =
+		useUpdateCardInfoMutation();
 	const {
 		register,
 		handleSubmit,
@@ -41,7 +52,10 @@ const DialogCreateItem = () => {
 		formState: { errors }
 	} = useForm<CreateWorkItemType>();
 
-	const onSubmit = (data: CreateWorkItemType) => {
+	const onSubmit = (data: CreateWorkItemType) =>
+		dataCard ? handleUpdateCardInfo(data) : handleCreateCard(data);
+
+	const handleCreateCard = (data: CreateWorkItemType) => {
 		const newBody = {
 			...data,
 			workListId: dataList?.id ?? "",
@@ -60,7 +74,26 @@ const DialogCreateItem = () => {
 		});
 	};
 
+	const handleUpdateCardInfo = (data: CreateWorkItemType) => {
+		const newBody = {
+			...data,
+			id: dataCard?.id as string,
+			tags
+		};
+		const promise = mutateUpdateCarInfo(newBody);
+		toast.promise(promise, {
+			loading: "Đang cập nhật thẻ...",
+			success: () => {
+				refetchList?.();
+				onToggleCreateItem?.();
+				reset(undefined);
+				setTags([]);
+				return "Cập nhật thẻ thành công";
+			}
+		});
+	};
 	const handleKeyDownTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (!valueTags) return;
 		if (e.key === "Enter" && e.keyCode === 13) {
 			e.preventDefault();
 			setTags((prev: any) => (prev ? [...prev, valueTags] : [valueTags]));
@@ -70,6 +103,30 @@ const DialogCreateItem = () => {
 
 	const handleRemoveTag = (idx: number) =>
 		setTags(() => tags.filter((_, index) => index !== idx));
+
+	useEffect(() => {
+		if (dataCard) {
+			reset({
+				title: dataCard.title,
+				content: dataCard.content,
+				date: dataCard.date
+			});
+			setTags(dataCard.tags);
+		}
+	}, [dataCard]);
+
+	useEffect(() => {
+		if (!openCreateItem) {
+			reset({
+				title: undefined,
+				date: undefined
+			});
+		}
+		return () => {
+			reset(undefined);
+			setTags([]);
+		};
+	}, [openCreateItem]);
 
 	return (
 		<Dialog open={openCreateItem} onOpenChange={onToggleCreateItem}>
@@ -133,7 +190,7 @@ const DialogCreateItem = () => {
 						onKeyDown={handleKeyDownTags}
 						placeholder='#Hashtag'
 					/>
-					<div className='flex gap-1.5'>
+					<div className='flex gap-1.5 flex-wrap'>
 						{tags?.map((tag, idx) => (
 							<Badge
 								key={idx}
@@ -147,7 +204,13 @@ const DialogCreateItem = () => {
 					</div>
 					<div className='flex items-center gap-2 mt-3 ml-auto'>
 						<Button onClick={handleSubmit(onSubmit)}>
-							{isPending ? <Spinner /> : "Thêm thẻ"}
+							{isPending || isPendingUpdate ? (
+								<Spinner />
+							) : dataCard ? (
+								"Cập nhật thẻ"
+							) : (
+								"Thêm thẻ"
+							)}
 						</Button>
 						<Button
 							type='button'
