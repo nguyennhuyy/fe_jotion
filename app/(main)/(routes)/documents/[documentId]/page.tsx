@@ -31,7 +31,7 @@ const DocumentIdPage = ({ params }: DocumentIdProps) => {
 		setTimeout(() => {
 			socket.emit(EventName.UpdateContentDocument, {
 				userId: user?.id,
-				id: params.documentId,
+				id: params?.documentId,
 				content
 			});
 		}, 500);

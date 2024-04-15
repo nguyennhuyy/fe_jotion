@@ -18,11 +18,13 @@ interface ToolbarProps {
 const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 	const params = useParams();
 	const { user } = userStore();
+
+	const refValue = useRef(false);
 	const inputRef = useRef<ElementRef<"textarea">>(null);
 
 	const [isEditing, setIsEditing] = useState(false);
-	const [icon, setIcon] = useState(initialData.icon);
-	const [value, setValue] = useState(initialData.title);
+	const [icon, setIcon] = useState(initialData?.icon);
+	const [value, setValue] = useState(initialData?.title);
 
 	const debouncedTitle = useDebounce(value, 700);
 	const { onOpen } = useCoverStore();
@@ -68,13 +70,16 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 	React.useEffect(() => {
 		const updateTitle = () => {
 			socket.emit(EventName.UpdateTitleDocument, {
-				id: params.documentId,
+				id: params?.documentId,
 				userId: user?.id,
 				title: value
 			});
 		};
 
-		updateTitle();
+		if (refValue.current) {
+			updateTitle();
+		}
+		refValue.current = true;
 	}, [debouncedTitle]);
 
 	return (
@@ -124,7 +129,7 @@ const Toolbar = ({ initialData, preview }: ToolbarProps) => {
 					value={value}
 					onChange={e => onInput(e.target.value)}
 					rows={1}
-					className='text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none border-none'
+					className='text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none border-none ring-0 focus-visible:ring-0'
 				/>
 			) : (
 				<div
