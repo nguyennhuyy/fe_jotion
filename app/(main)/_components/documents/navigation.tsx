@@ -58,7 +58,7 @@ const Navigation = () => {
     }
   }
 
-  const handleMouseUp = (event: MouseEvent) => {
+  const handleMouseUp = (_event: MouseEvent) => {
     isResizingRef.current = false
     document.removeEventListener("mousemove", handleMouseMove)
     document.removeEventListener("mouseup", handleMouseUp)
@@ -106,6 +106,7 @@ const Navigation = () => {
   useEffect(() => {
     isMoble && collape()
   }, [pathname, isMoble])
+
   return (
     <>
       <aside
