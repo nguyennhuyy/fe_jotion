@@ -15,7 +15,7 @@ import { AuthContext } from "./context"
 const Login = () => {
   const router = useRouter()
 
-  const { handleToggleAuth, handleOpenDialog } = useContext(AuthContext)
+  const { AUTH, handleToggleAuth, handleOpenDialog } = useContext(AuthContext)
   const { setItemCookie } = useCookie()
 
   const { mutateAsync: mutateLogin, isPending: isPendingLogin } =
@@ -32,8 +32,7 @@ const Login = () => {
     setItemCookie(KeyCookie.Token, response.accessToken)
     toast.success("Đăng nhập thành công")
     handleOpenDialog?.()
-    router.push("/documents")
-    router.refresh()
+    location.href = "/documents"
   }
   return (
     <>
@@ -81,16 +80,27 @@ const Login = () => {
           {isPendingLogin ? <Spinner /> : "Đăng nhập"}
         </Button>
       </form>
-      <div className="flex justify-start items-center gap-1 !mt-8">
-        <span className="text-sm font-normal text-black/60 leading-4">
-          Chưa có tài khoản?
-        </span>
-        <span
-          className="text-sm font-medium leading-4 cursor-pointer hover:underline"
-          onClick={handleToggleAuth}
-        >
-          Đăng ký
-        </span>
+      <div className="flex justify-between items-center !mt-8">
+        <div className="flex justify-start items-center gap-1 ">
+          <span className="text-sm font-normal text-black/60 leading-4">
+            Chưa có tài khoản?
+          </span>
+          <span
+            className="text-sm font-medium leading-4 cursor-pointer hover:underline"
+            onClick={() => handleToggleAuth?.(AUTH?.SIGNUP)}
+          >
+            Đăng ký
+          </span>
+        </div>
+        <div>
+          <Button
+            variant="link"
+            className="p-0"
+            onClick={() => handleToggleAuth?.(AUTH?.FORGOT)}
+          >
+            Quên mật khẩu
+          </Button>
+        </div>
       </div>
     </>
   )

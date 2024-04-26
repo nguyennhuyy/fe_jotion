@@ -1,26 +1,45 @@
-import { ReactNode, createContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react"
+
+type Auth = {
+  LOGIN: string
+  SIGNUP: string
+  FORGOT: string
+}
 
 type AuthContextType = {
-	toggleAuth?: boolean;
-	openDialog?: boolean;
-	handleToggleAuth?: () => void;
-	handleOpenDialog?: () => void;
-};
-export const AuthContext = createContext<AuthContextType>({});
+  AUTH?: Auth
+  toggleAuth?: string
+  openDialog?: boolean
+  handleToggleAuth?: (type?: string) => void
+  handleOpenDialog?: () => void
+}
+export const AuthContext = createContext<AuthContextType>({})
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-	const [toggleAuth, setToggleAuth] = useState<boolean>(true);
-	const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const AUTH = {
+    LOGIN: "LOGIN",
+    SIGNUP: "SIGNUP",
+    FORGOT: "FORGOT",
+  }
+  const [toggleAuth, setToggleAuth] = useState<string>(AUTH.LOGIN)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
 
-	const handleToggleAuth = () => setToggleAuth(!toggleAuth);
-	const handleOpenDialog = () => setOpenDialog(!openDialog);
+  const handleToggleAuth = (type?: string) => type && setToggleAuth(type)
+  const handleOpenDialog = () => setOpenDialog(!openDialog)
 
-	return (
-		<AuthContext.Provider
-			value={{ toggleAuth, openDialog, handleToggleAuth, handleOpenDialog }}>
-			{children}
-		</AuthContext.Provider>
-	);
-};
+  return (
+    <AuthContext.Provider
+      value={{
+        AUTH,
+        toggleAuth,
+        openDialog,
+        handleToggleAuth,
+        handleOpenDialog,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
+}
 
-export default AuthContextProvider;
+export default AuthContextProvider

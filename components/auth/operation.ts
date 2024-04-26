@@ -1,22 +1,40 @@
-import { useMutation } from "@tanstack/react-query";
+import {
+  forgotApi,
+  loginApi,
+  loginGoogleApi,
+  resetPaswordApi,
+  signUpApi,
+} from "@/apis"
+import { useMutation } from "@tanstack/react-query"
 
-import { loginApi, loginGoogleApi, signUpApi } from "@/apis";
-import { TypeQuery } from ".";
+import { TypeQuery } from "."
 
 export const useLoginMutation = () =>
-	useMutation({
-		mutationKey: [TypeQuery.Login],
-		mutationFn: loginApi
-	});
+  useMutation({
+    mutationKey: [TypeQuery.Login],
+    mutationFn: loginApi,
+  })
 
 export const useSignUpMutation = () =>
-	useMutation({
-		mutationKey: [TypeQuery.SignUp],
-		mutationFn: signUpApi
-	});
+  useMutation({
+    mutationKey: [TypeQuery.SignUp],
+    mutationFn: signUpApi,
+  })
 
 export const useLoginGoogleMutation = () =>
-	useMutation({
-		mutationKey: [TypeQuery.LoginGoogle],
-		mutationFn: loginGoogleApi
-	});
+  useMutation({
+    mutationKey: [TypeQuery.LoginGoogle],
+    mutationFn: loginGoogleApi,
+  })
+
+export const useForgotMutation = () =>
+  useMutation({
+    mutationKey: [TypeQuery.ForgotPassword],
+    mutationFn: forgotApi,
+  })
+
+export const useResetPasswordMutation = () =>
+  useMutation({
+    mutationKey: [TypeQuery.ResetPassword],
+    mutationFn: resetPaswordApi,
+  })

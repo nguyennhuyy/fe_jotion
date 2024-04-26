@@ -14,7 +14,7 @@ import { AuthContext } from "./context"
 
 const SignUp = () => {
   const router = useRouter()
-  const { handleToggleAuth, handleOpenDialog } = useContext(AuthContext)
+  const { AUTH, handleToggleAuth, handleOpenDialog } = useContext(AuthContext)
 
   const { setItemCookie } = useCookie()
 
@@ -34,8 +34,7 @@ const SignUp = () => {
     toast.success("Đăng ký tài khoản thành công")
     reset(undefined)
     handleOpenDialog?.()
-    router.push("/documents")
-    router.refresh()
+    location.href = "/documents"
   }
   return (
     <>
@@ -108,7 +107,7 @@ const SignUp = () => {
         </span>
         <span
           className="text-sm font-medium leading-4 cursor-pointer hover:underline"
-          onClick={handleToggleAuth}
+          onClick={() => handleToggleAuth?.(AUTH?.LOGIN)}
         >
           Đăng nhập
         </span>
