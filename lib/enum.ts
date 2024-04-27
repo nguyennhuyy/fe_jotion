@@ -1,5 +1,6 @@
 export enum KeyCookie {
   Token = "token",
+  TokenAdmin = "tokenAdmin",
   UserID = "userID",
 }
 

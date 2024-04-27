@@ -127,10 +127,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
         >
           <div className="mt-20 border-t py-6 flex flex-col">
             <h3 className="font-semibold mb-2">Bình luận</h3>
-            <Textarea
-              {...register("content")}
-              placeholder="Góp ý về bài viết"
-            />
+            <Textarea {...register("content")} placeholder="Nhập nội dung..." />
             <Button
               className="mt-4 ml-auto"
               onClick={handleSubmit(handleComment)}
@@ -143,25 +140,35 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
         <div className="mt-6 border-t py-6 flex flex-col gap-4 px-4 lg:px-0">
           <h3 className="font-semibold mb-2">Bình luận bài viết</h3>
 
-          {document?.comments?.map((attr) => (
-            <div key={attr?.id} className="flex gap-2">
-              <Avatar>
-                <AvatarImage
-                  src={attr?.userId?.avatar || "/logo.svg"}
-                  width={32}
-                  height={32}
-                  alt="avatar"
-                />
-                <AvatarFallback>J</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col">
-                <p className="text-base font-semibold">
-                  {attr?.userId?.fullname || "Người lạ"}
-                </p>
-                <p className="text-sm font-normal">{attr?.content}</p>
-              </div>
+          {document?.comments?.length > 0 ? (
+            <>
+              {document?.comments?.map((attr) => (
+                <div key={attr?.id} className="flex gap-2">
+                  <Avatar>
+                    <AvatarImage
+                      src={attr?.userId?.avatar || "/logo.svg"}
+                      width={32}
+                      height={32}
+                      alt="avatar"
+                    />
+                    <AvatarFallback>J</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <p className="text-base font-semibold">
+                      {attr?.userId?.fullname || "Người lạ"}
+                    </p>
+                    <p className="text-sm font-normal">{attr?.content}</p>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            <div>
+              <p className="text-lg font-medium mt-6 text-center">
+                Chưa có bình luận nào.
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

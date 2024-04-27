@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+import { toast } from "sonner"
 import { useDebounce } from "usehooks-ts"
+import { useMutation } from "@tanstack/react-query"
 
+import { createGroupChatApi } from "@/apis/chat.api"
 import { Spinner } from "@/components/spinner"
 import { Input } from "@/components/ui"
 
@@ -12,6 +16,8 @@ import { ChatUser } from "."
 import { useSearchChatMutation } from "../../_query"
 
 const Sidebar = () => {
+  const router = useRouter()
+
   const [isFocus, setIsFocus] = useState<boolean>(false)
   const [textSearch, setTextSearch] = useState<string>()
   const debouncedSearchTerm = useDebounce(textSearch, 700)
@@ -22,7 +28,20 @@ const Sidebar = () => {
     isPending,
   } = useSearchChatMutation()
 
+  const { mutateAsync: mutateCreateGroup } = useMutation({
+    mutationKey: ["CreateGroup"],
+    mutationFn: createGroupChatApi,
+  })
+
   const onFocus = () => setIsFocus(true)
+
+  const handleCreate = async (id: string) => {
+    const group = await mutateCreateGroup({
+      name: "",
+      userId: id,
+    })
+    router.push(`/messages/${group.id}`)
+  }
 
   useEffect(() => {
     mutateSearch(textSearch)
@@ -60,6 +79,7 @@ const Sidebar = () => {
                     className={
                       "flex items-center p-2 justify-between hover:bg-slate-100 cursor-pointer rounded-md hover:dark:bg-slate-400"
                     }
+                    onClick={() => handleCreate(user?.id)}
                   >
                     <div className="flex items-center gap-2">
                       <Image
