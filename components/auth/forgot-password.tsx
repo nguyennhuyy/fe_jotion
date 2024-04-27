@@ -83,7 +83,7 @@ const ForgotPassword = () => {
                 {errors.email?.message}
               </Validator>
             </div>
-            <Button onClick={handleSendCode}>
+            <Button type="button" onClick={handleSendCode}>
               {isPendingForgot ? <Spinner /> : "Gửi mã"}
             </Button>
           </div>

@@ -1,5 +1,10 @@
 import { api } from "@/lib"
-import { DocumentItem, UpdateCoverType, UpdatePublishType } from "@/types"
+import {
+  CommentType,
+  DocumentItem,
+  UpdateCoverType,
+  UpdatePublishType,
+} from "@/types"
 
 export const getDocumentsApi = async (id: string): Promise<DocumentItem> => {
   const data = await api.get<DocumentItem>(`/documents/${id}`)
@@ -38,5 +43,12 @@ export const writeContentAIApi = async (prompt: string): Promise<string> => {
   const data = await api.post<string>(`/documents/ai-content`, {
     prompt,
   })
+  return data.data
+}
+
+export const commentDocumentApi = async (
+  body: CommentType
+): Promise<CommentType> => {
+  const data = await api.post<CommentType>(`/documents/comment`, body)
   return data.data
 }

@@ -30,6 +30,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<LoginType> = async (data: LoginType) => {
     const response = await mutateLogin(data)
     setItemCookie(KeyCookie.Token, response.accessToken)
+    setItemCookie(KeyCookie.UserID, response.id)
     toast.success("Đăng nhập thành công")
     handleOpenDialog?.()
     location.href = "/documents"

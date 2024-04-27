@@ -1,3 +1,4 @@
 export enum TypeQuery {
-	PublicDocs = "PublicDocs"
+  PublicDocs = "PublicDocs",
+  Comment = "Comment",
 }
