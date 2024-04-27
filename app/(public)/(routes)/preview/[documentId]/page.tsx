@@ -121,7 +121,26 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
           initialContent={document.content}
         />
 
-        <div className="mt-20 border-t py-6 flex flex-col gap-4">
+        <form
+          className="w-full px-4 lg:px-0"
+          onSubmit={handleSubmit(handleComment)}
+        >
+          <div className="mt-20 border-t py-6 flex flex-col">
+            <h3 className="font-semibold mb-2">Bình luận</h3>
+            <Textarea
+              {...register("content")}
+              placeholder="Góp ý về bài viết"
+            />
+            <Button
+              className="mt-4 ml-auto"
+              onClick={handleSubmit(handleComment)}
+            >
+              {isPendingComment ? <Spinner /> : "Gửi"}
+            </Button>
+          </div>
+        </form>
+
+        <div className="mt-6 border-t py-6 flex flex-col gap-4 px-4 lg:px-0">
           <h3 className="font-semibold mb-2">Bình luận bài viết</h3>
 
           {document?.comments?.map((attr) => (
@@ -144,22 +163,6 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
             </div>
           ))}
         </div>
-
-        <form className="w-full" onSubmit={handleSubmit(handleComment)}>
-          <div className="mt-20 border-t py-6 flex flex-col">
-            <h3 className="font-semibold mb-2">Bình luận</h3>
-            <Textarea
-              {...register("content")}
-              placeholder="Góp ý về bài viết"
-            />
-            <Button
-              className="mt-4 ml-auto"
-              onClick={handleSubmit(handleComment)}
-            >
-              {isPendingComment ? <Spinner /> : "Gửi"}
-            </Button>
-          </div>
-        </form>
       </div>
     </div>
   )
