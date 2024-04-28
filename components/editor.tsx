@@ -225,7 +225,7 @@ export function CustomSlashMenu(
       }
 
       if (group === "Media") {
-        newHeading = "Nâng cao"
+        newHeading = "Phương tiện"
         switch (title) {
           case "Image":
             newTitle = "Ảnh"
