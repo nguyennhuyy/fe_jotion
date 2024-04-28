@@ -132,12 +132,22 @@ const Navigation = () => {
           <SearchCommand
             render={() => <Item label="Tìm kiếm" icon={Search} isSearch />}
           />
-          <Item label="Cài đặt" icon={Settings} onClick={() => {}} />
+          {/* <Item label="Cài đặt" icon={Settings} onClick={() => {}} /> */}
           <Link href="/messages">
-            <Item label="Tin nhắn" icon={MessageCircle} onClick={() => {}} />
+            <Item
+              label="Tin nhắn"
+              icon={MessageCircle}
+              onClick={() => {}}
+              active={pathname.includes("messages")}
+            />
           </Link>
           <Link href="/workspace">
-            <Item label="Bảng biểu" icon={LayoutDashboard} onClick={() => {}} />
+            <Item
+              label="Bảng biểu"
+              icon={LayoutDashboard}
+              onClick={() => {}}
+              active={pathname.includes("workspace")}
+            />
           </Link>
           <Item label="Trang mới" icon={PlusCircle} onClick={createNewPage} />
         </div>
