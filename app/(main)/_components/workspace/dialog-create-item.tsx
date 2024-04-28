@@ -48,7 +48,11 @@ const DialogCreateItem = () => {
     control,
     watch,
     formState: { errors },
-  } = useForm<CreateWorkItemType>()
+  } = useForm<CreateWorkItemType>({
+    defaultValues: {
+      date: null,
+    },
+  })
 
   const watchDate = watch("date")
   const onSubmit = (data: CreateWorkItemType) =>
@@ -57,7 +61,9 @@ const DialogCreateItem = () => {
   const handleCreateCard = (data: CreateWorkItemType) => {
     const newBody = {
       ...data,
-      date: dayjs(watchDate?.toString()).format("YYYY-MM-DDTHH:mm:ssZ") || "",
+      date: watchDate
+        ? dayjs(watchDate?.toString()).format("YYYY-MM-DDTHH:mm:ssZ")
+        : null,
       workListId: dataList?.id ?? "",
       tags,
     }
