@@ -6,11 +6,13 @@ import { cn, KeyCookie } from "@/lib"
 import { LogOut } from "lucide-react"
 
 const Header = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
-  const { removeItemCookie } = useCookie()
+  const { removeItemCookie, getItemCookie } = useCookie()
   const handleLogOut = () => {
     removeItemCookie(KeyCookie.TokenAdmin)
     location.href = "/admin/login"
   }
+  if (!getItemCookie(KeyCookie.TokenAdmin)) return null
+
   return (
     <div>
       <nav

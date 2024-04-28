@@ -3,11 +3,15 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useCookie } from "@/hooks"
+import { KeyCookie } from "@/lib"
 import { File, Home, Table, User } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
 export default function Sidebar() {
+  const { getItemCookie } = useCookie()
+
   const pathname = usePathname()
   const links = [
     {
@@ -23,7 +27,7 @@ export default function Sidebar() {
       active: ["/admin/users"].includes(pathname),
     },
     {
-      title: "Tài liệu",
+      title: "Ghi chú",
       href: "/admin/documents",
       icon: File,
       active: ["/admin/documents"].includes(pathname),
@@ -35,6 +39,8 @@ export default function Sidebar() {
       active: ["/admin/workspace"].includes(pathname),
     },
   ]
+
+  if (!getItemCookie(KeyCookie.TokenAdmin)) return null
   return (
     <div className="min-w-[300px] bg-cyan-900">
       <Image

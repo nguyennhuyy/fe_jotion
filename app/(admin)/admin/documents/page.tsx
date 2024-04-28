@@ -29,10 +29,10 @@ const PageDocuments = () => {
     setDocId(id)
     const promise = mutateDelete(id)
     toast.promise(promise, {
-      loading: "Đang xoá tài liệu",
+      loading: "Đang xoá ghi chú",
       success: () => {
         refetch()
-        return "Xoá tài liệu thành công"
+        return "Xoá ghi chú thành công"
       },
     })
   }
@@ -45,7 +45,7 @@ const PageDocuments = () => {
   }
   return (
     <>
-      <h1 className="font-bold text-xl mb-3">Danh sách tài liệu</h1>
+      <h1 className="font-bold text-xl mb-3">Danh sách ghi chú</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {dataDocs?.map((doc) => (
           <button
@@ -85,7 +85,7 @@ const PageDocuments = () => {
             <div className="line-clamp-2 text-xs text-muted-foreground">
               {dayjs(doc.createdAt).format("MM/DD/YYYY HH:mm")}
             </div>
-            <Badge className="bg-cyan-900">
+            <Badge className="bg-violet-600">
               {doc.isPublished ? "Công khai" : "Không công khai"}
             </Badge>
           </button>
