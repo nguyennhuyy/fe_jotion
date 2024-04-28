@@ -30,8 +30,8 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 
 const onResponseError = (error: AxiosError | any): Promise<AxiosError> => {
   if (error?.response?.data?.code === 401) {
-    // Cookies.remove(COOKIES_KEY.TOKEN);
-    // location.href = "/login";
+    Cookies.remove(KeyCookie.TokenAdmin)
+    location.href = "/admin/login"
   }
   toast.error(error?.response?.data?.message)
   return Promise.reject(error)

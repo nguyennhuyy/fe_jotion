@@ -23,7 +23,7 @@ export default function Sidebar() {
       active: ["/admin/users"].includes(pathname),
     },
     {
-      title: "Bài Viết",
+      title: "Tài liệu",
       href: "/admin/documents",
       icon: File,
       active: ["/admin/documents"].includes(pathname),
@@ -42,7 +42,7 @@ export default function Sidebar() {
         width={60}
         height={60}
         alt="logo"
-        className="p-2"
+        className="p-2 pt-4 flex justify-center items-center m-auto text-white invert"
       />
       <nav className="flex gap-4 flex-col px-2 mt-4">
         {links.map((link, index) => (

@@ -16,3 +16,12 @@ export type UserUpdateInfoType = {
   phone?: string
   address?: string
 }
+
+export type ListGroupType = {
+  id: string
+  name: string | null
+  membersId: UserInfoType
+  type: string
+  createdAt: Date
+  updatedAt: Date
+}

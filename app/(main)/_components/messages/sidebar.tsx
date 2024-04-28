@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
+import { userStore } from "@/store"
 import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import { useDebounce } from "usehooks-ts"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
-import { createGroupChatApi } from "@/apis/chat.api"
+import { createGroupChatApi, listGroupApi } from "@/apis/chat.api"
 import { Spinner } from "@/components/spinner"
 import { Input } from "@/components/ui"
 
@@ -17,6 +18,9 @@ import { useSearchChatMutation } from "../../_query"
 
 const Sidebar = () => {
   const router = useRouter()
+  const paramsId = useParams()
+
+  const { user } = userStore()
 
   const [isFocus, setIsFocus] = useState<boolean>(false)
   const [textSearch, setTextSearch] = useState<string>()
@@ -33,18 +37,29 @@ const Sidebar = () => {
     mutationFn: createGroupChatApi,
   })
 
+  const { data: listGroup, isPending: isPendingList } = useQuery({
+    queryKey: ["ListGroup"],
+    queryFn: listGroupApi,
+  })
+
   const onFocus = () => setIsFocus(true)
 
   const handleCreate = async (id: string) => {
     const group = await mutateCreateGroup({
-      name: "",
-      userId: id,
+      name: id,
+      type: "individual",
+      membersId: [user?.id as string, id],
     })
     router.push(`/messages/${group.id}`)
   }
 
+  const handleGetDetail = (id: string) => {
+    router.push(`/messages/${id}`)
+  }
   useEffect(() => {
-    mutateSearch(textSearch)
+    if (textSearch) {
+      mutateSearch(textSearch)
+    }
   }, [debouncedSearchTerm])
 
   return (
@@ -101,13 +116,21 @@ const Sidebar = () => {
             )}
           </div>
         )
+      ) : isPendingList ? (
+        <div className="flex flex-col gap-1 mt-2 w-full justify-center items-center h-40">
+          <Spinner />
+        </div>
       ) : (
         <div className="flex flex-col gap-1 mt-2">
-          <ChatUser name="Thai Hong Ngan" message="Ok" time="7:00 AM" />
-          <ChatUser name="Thai Hong Ngan" message="Ok" time="7:00 AM" />
-          <ChatUser name="Thai Hong Ngan" message="Ok" time="7:00 AM" />
-          <ChatUser name="Thai Hong Ngan" message="Ok" time="7:00 AM" active />
-          <ChatUser name="Thai Hong Ngan" message="Ok" time="7:00 AM" />
+          {(listGroup || [])?.map((group, idx) => (
+            <ChatUser
+              active={group?.id === paramsId?.messageId}
+              avatar={group?.membersId?.avatar}
+              onClick={() => handleGetDetail(group?.id)}
+              key={group.id + idx}
+              name={group?.membersId?.fullname}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -11,4 +11,5 @@ export enum EventName {
   UpdateContentDocument = "updateContentDocument",
   UpdateTitleDocument = "updateTitleDocument",
   UpdateIconDocument = "updateIconDocument",
+  OnChat = "onChat",
 }

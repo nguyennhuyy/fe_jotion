@@ -38,3 +38,29 @@ export interface CommentType {
   documentId: string
   content: string
 }
+
+export interface DocumentAdminType {
+  id: string
+  content: string
+  coverImage: string
+  createdAt: Date
+  icon: null
+  isArchived: boolean
+  isPublished: boolean
+  title: string
+  updatedAt: Date
+  userId: UserID
+}
+
+export interface UserID {
+  id: string
+  address: string
+  createdAt: Date
+  email: string
+  avatar: null
+  fullname: string
+  phone: string
+  userId: null
+  typeLogin: string
+  updatedAt: Date
+}

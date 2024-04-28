@@ -18,7 +18,7 @@ const MessageItem = ({ avatar, content, className, role, ...props }: Props) => {
       {...props}
     >
       <Image
-        src={avatar || "logo.svg"}
+        src={avatar || "/logo.svg"}
         width={30}
         height={30}
         className="rounded-full"

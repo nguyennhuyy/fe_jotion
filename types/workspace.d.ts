@@ -1,5 +1,7 @@
 import { DateValue } from "react-aria"
 
+import { UserID } from "./documents"
+
 export type WorkSpaceType = {
   id: string
   title: string
@@ -102,4 +104,12 @@ export type UpdateCardInfoType = {
   avatar?: string
   date?: DateValue | Date
   tags: string[]
+}
+
+export type DataWorkSpaceType = {
+  id: string
+  title: string
+  userId: UserID
+  imageThumb: string
+  createdAt: Date
 }
