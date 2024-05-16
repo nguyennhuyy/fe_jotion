@@ -102,7 +102,7 @@ export type UpdateCardInfoType = {
   title: string
   content: string
   avatar?: string
-  date?: DateValue | Date
+  date?: DateValue | Date | any
   tags: string[]
 }
 

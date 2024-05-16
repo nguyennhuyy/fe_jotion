@@ -84,6 +84,9 @@ const DialogCreateItem = () => {
   const handleUpdateCardInfo = (data: CreateWorkItemType) => {
     const newBody = {
       ...data,
+      date: watchDate
+        ? dayjs(watchDate?.toString()).format("YYYY-MM-DDTHH:mm:ssZ")
+        : null,
       id: dataCard?.id as string,
       tags,
     }
